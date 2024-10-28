@@ -1,0 +1,69 @@
+<!-- Contenu de Home -->
+<div class="flex flex-col h-full bg-white p-4 w-auto">
+    <!-- Section Scanner QR -->
+    <div class="bg-gradient-to-br from-green-500 to-emerald-400 rounded-lg p-6 mb-6 shadow-lg">
+        <div class="relative">
+            <div class="bg-white rounded-lg p-4 shadow-md w-48 mx-auto transform hover:scale-105 transition-transform duration-300">
+                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center mb-2">
+                    <img src="/assets/qr-code.png" alt="QR Code" class="w-full h-full object-contain" />
+                </div>
+                <div class="text-center text-green-600 text-sm font-medium">
+                    <i class="fas fa-camera mr-1"></i>Scanner
+                </div>
+            </div>
+            <div class="absolute -right-4 bottom-0">
+                <i class="fas fa-penguin text-2xl"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Actions rapides -->
+    <div class="grid grid-cols-4 gap-4 mb-6">
+        <div class="flex flex-col items-center">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2 shadow">
+                <i class="fas fa-user text-green-600"></i>
+            </div>
+            <span class="text-sm font-medium text-green-800">Transfert</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-2 shadow">
+                <i class="fas fa-shopping-cart text-emerald-600"></i>
+            </div>
+            <span class="text-sm font-medium text-green-800">Paiements</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2 shadow">
+                <i class="fas fa-mobile-alt text-green-600"></i>
+            </div>
+            <span class="text-sm font-medium text-green-800">Crédit</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-2 shadow">
+                <i class="fas fa-university text-red-600"></i>
+            </div>
+            <span class="text-sm font-medium text-green-800">Banque</span>
+        </div>
+    </div>
+    <!-- Liste des transactions -->
+    <div class="flex flex-col flex-1 overflow-y-auto">
+        <div class="mb-4">
+            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                <div>
+                    <div class="text-green-600 font-medium">Retrait</div>
+                    <div class="text-gray-500 text-sm">27 oct., 13:13</div>
+                </div>
+                <div class="text-lg font-medium text-red-600">-20.000F</div>
+            </div>
+        </div>
+        <!-- Transaction Item -->
+        <div class="mb-4">
+            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                <div>
+                    <div class="text-green-600 font-medium">De Oumar Sy ODC</div>
+                    <div class="text-gray-500 text-sm">78 180 72 29</div>
+                    <div class="text-gray-500 text-sm">26 oct., 18:56</div>
+                </div>
+                <div class="text-lg font-medium text-green-600">500F</div>
+            </div>
+        </div>
+    </div>
+</div>

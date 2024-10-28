@@ -1,0 +1,88 @@
+<!-- login.component.html -->
+<div class="min-h-screen bg-gradient-to-br from-green-500 via-green-400 to-emerald-300 p-6 md:p-10">
+    <!-- Container principal avec effet de verre -->
+    <div class="max-w-md mx-auto bg-white/30 backdrop-blur-lg rounded-3xl p-8 shadow-2xl">
+        <!-- Logo Wave au centre -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-white rounded-2xl p-6 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <!-- Logo Wave stylisé avec animation -->
+                <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="text-green-500">
+                    <path d="M50 10C35 10 20 25 20 40C20 55 35 70 50 70C65 70 80 55 80 40" stroke="currentColor"
+                        stroke-width="8" stroke-linecap="round" class="animate-pulse" />
+                    <path d="M20 60C20 75 35 90 50 90C65 90 80 75 80 60" stroke="currentColor" stroke-width="8"
+                        stroke-linecap="round" stroke-opacity="0.5" class="animate-pulse delay-150" />
+                </svg>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-center text-white mb-8 text-shadow">Connexion Wave</h2>
+
+        <!-- Formulaire -->
+        <form class="space-y-6" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+            <!-- Champ téléphone -->
+            <div
+                class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow-lg border border-white/50 hover:border-green-300 transition-all duration-300">
+                <label class="block text-sm font-semibold text-green-800 mb-2">Téléphone</label>
+                <div class="flex items-center bg-white/50 rounded-xl p-2">
+                    <span class="text-green-700 font-medium px-3 py-1 bg-green-100 rounded-lg mr-2">+221</span>
+                    <input type="tel" [(ngModel)]="loginData.telephone" name="telephone" required
+                        class="block w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-green-900 placeholder-green-500/50"
+                        placeholder="70 581 32 57">
+                </div>
+            </div>
+
+            <!-- Champ mot de passe -->
+            <div
+                class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow-lg border border-white/50 hover:border-green-300 transition-all duration-300">
+                <label class="block text-sm font-semibold text-green-800 mb-2">Mot de passe</label>
+                <div class="bg-white/50 rounded-xl p-2">
+                    <input type="password" [(ngModel)]="loginData.password" name="password" required
+                        class="block w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-green-900 placeholder-green-500/50"
+                        placeholder="••••••">
+                </div>
+            </div>
+
+            <!-- Options de connexion -->
+            <div class="flex items-center justify-between text-sm">
+                <div class="flex items-center">
+                    <input type="checkbox" class="h-4 w-4 rounded border-green-300 text-green-600 focus:ring-green-500">
+                    <label class="ml-2 text-white font-medium">Se souvenir de moi</label>
+                </div>
+                <a href="#" class="text-white hover:text-green-200 font-medium transition-colors">
+                    Mot de passe oublié ?
+                </a>
+            </div>
+
+            <!-- Bouton de connexion -->
+            <button type="submit" [disabled]="!loginForm.valid" class="w-full bg-green-500 text-white rounded-2xl py-4 px-6 font-semibold shadow-lg
+            hover:bg-green-600 transform transition-all duration-300 hover:scale-[1.02] 
+            focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2
+            disabled:opacity-50 disabled:cursor-not-allowed
+            flex items-center justify-center space-x-2 group">
+                <span>Se connecter</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+            </button>
+        </form>
+
+        <!-- Inscription -->
+        <p class="mt-8 text-center text-white">
+            Pas encore de compte ?
+            <a [routerLink]="['/signup']" class="font-semibold hover:text-green-200 transition-colors cursor-pointer">
+                Inscrivez-vous
+            </a>
+        </p>
+    </div>
+
+    <!-- Pattern décoratif amélioré -->
+    <div class="fixed inset-0 -z-10 opacity-10">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0);
+                   background-size: 40px 40px;">
+        </div>
+    </div>
+</div>
