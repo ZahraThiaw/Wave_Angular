@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ export interface LoginResponse {
     carte: string;
     etatcarte: boolean;
     role_id: number;
-  }
+  };
 }
 
 export interface LoginRequest {
@@ -25,19 +25,43 @@ export interface LoginRequest {
   code: string;
 }
 
+export interface SignupData {
+  nom: string;
+  prenom: string;
+  telephone: string;
+  email: string;
+  roleId: number;
+  password: string;
+}
+
+export interface SignupResponse {
+  data: {
+    id: number;
+    nom: string;
+    prenom: string;
+    telephone: string;
+    email: string;
+    solde: string;
+    code: string;
+    promo: string;
+    carte: string;
+    etatcarte: boolean;
+    role_id: number;
+  };
+  message: string;
+  status: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly API_URL = '/api'; // Utilise le proxy configuré
+  private readonly API_URL = '/api';
 
   login(numero: string, code: string): Observable<LoginResponse> {
-    const loginData: LoginRequest = {
-      numero,
-      code
-    };
-
+    const loginData: LoginRequest = { numero, code };
+    
     return this.http.post<LoginResponse>(`${this.API_URL}/login`, loginData)
       .pipe(
         tap(response => {
@@ -63,5 +87,16 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  register(signupData: SignupData): Observable<SignupResponse> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post<SignupResponse>(`${this.API_URL}/user/create`, signupData, { headers })
+      .pipe(
+        tap(response => {
+          console.log('Inscription réussie:', response.message);
+        })
+      );
   }
 }

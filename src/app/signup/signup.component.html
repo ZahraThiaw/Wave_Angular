@@ -41,6 +41,11 @@
 
         <h2 class="text-2xl font-bold text-center text-white mb-8 text-shadow">Inscription Wave</h2>
 
+        <!-- Ajouter ceci après le formulaire et avant le message d'inscription -->
+        <div *ngIf="successMessage" class="mt-4 p-3 bg-red-100 text-green-700 rounded-xl text-center">
+            Inscription réussie avec succès
+        </div>
+
         <!-- Formulaire -->
         <form class="space-y-4" (ngSubmit)="onSubmit()" #signupForm="ngForm">
             <!-- Nom -->
@@ -94,20 +99,7 @@
                         placeholder="aissata@gmail.com">
                 </div>
             </div>
-
-            <!-- Mot de passe -->
-            <div class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow-lg border border-white/50 hover:border-green-300 transition-all duration-300">
-                <label class="block text-sm font-semibold text-green-800 mb-2">Mot de passe</label>
-                <div class="bg-white/50 rounded-xl p-2">
-                    <input type="password"
-                        [(ngModel)]="signupData.password"
-                        name="password"
-                        required
-                        class="block w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-green-900 placeholder-green-500/50"
-                        placeholder="••••••">
-                </div>
-            </div>
-
+            
             <!-- Bouton d'inscription -->
             <button type="submit" 
                 [disabled]="!signupForm.valid"
@@ -123,6 +115,11 @@
                 </svg>
             </button>
         </form>
+
+        <!-- Ajouter ceci après le formulaire et avant le message d'inscription -->
+        <div *ngIf="errorMessage" class="mt-4 p-3 bg-red-100 text-red-700 rounded-xl text-center">
+            Numéro ou mot de passe incorrect
+        </div>
     </div>
 
     <!-- Pattern décoratif -->

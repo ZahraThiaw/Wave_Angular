@@ -1,22 +1,14 @@
-// signup.component.ts
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-
-interface SignupData {
-  nom: string;
-  prenom: string;
-  telephone: string;
-  email: string;
-  role: 'client';
-  password: string;
-}
+import { AuthService, SignupData } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   standalone: true,
-  imports: [FormsModule, RouterLink]
+  imports: [FormsModule, RouterLink, CommonModule]
 })
 export class SignupComponent {
   signupData: SignupData = {
@@ -24,15 +16,27 @@ export class SignupComponent {
     prenom: '',
     telephone: '',
     email: '',
-    role: 'client',
+    roleId: 2,  // Supposons que le rôle 'client' est représenté par roleId = 2
     password: ''
   };
 
-  constructor(private router: Router) {}
+  successMessage: string = '';
+  errorMessage: string = '';
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    console.log('Données d\'inscription:', this.signupData);
-    // Ici, vous pouvez ajouter la logique d'inscription
-    this.router.navigate(['/login']);
+    this.authService.register(this.signupData).subscribe({
+      next: (response) => {
+        console.log('Données d\'inscription:', response);
+        this.successMessage = response.message;
+        this.router.navigate(['/login']); // Redirige vers la page de connexion
+      },
+      error: (error) => {
+        console.error('Erreur lors de l\'inscription:', error);
+        console.log('Erreur lors de l\'inscription. Veuillez réessayer.');
+        this.errorMessage = error.message;
+      }
+    });
   }
 }
