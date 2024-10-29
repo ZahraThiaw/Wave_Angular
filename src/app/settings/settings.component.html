@@ -44,14 +44,19 @@
             </div>
         </div>
     </div>
+     <!-- Section Déconnexion avec bouton -->
     <div class="mb-6">
         <div class="bg-white rounded-lg shadow-sm">
-            <div class="p-4 flex items-center text-green-800">
-                <i class="fas fa-sign-out-alt mr-3"></i> Se déconnecter
-                <span class="text-gray-500 text-sm ml-2">(77 916 32 04)</span>
-            </div>
+            <button 
+                (click)="onLogout()"
+                class="w-full p-4 flex items-center text-green-800 hover:bg-gray-50 transition-colors duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                <i class="fas fa-sign-out-alt mr-3"></i>
+                <span>Se déconnecter</span>
+                <span class="text-gray-500 text-sm ml-2">({{userPhone | slice:0:2}} {{userPhone | slice:2:5}} {{userPhone | slice:5:7}} {{userPhone | slice:7:9}})</span>
+            </button>
         </div>
     </div>
+
     <!-- Footer -->
     <div class="text-center text-white text-xs mt-8">
         wave digital finance<br>

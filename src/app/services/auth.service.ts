@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 export interface LoginResponse {
   token: string;
@@ -57,6 +58,7 @@ export interface SignupResponse {
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
   private readonly API_URL = '/api';
 
   login(numero: string, code: string): Observable<LoginResponse> {
@@ -74,6 +76,10 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    this.router.navigate(['/login']).then(() => {
+      // Nettoyer l'historique de navigation pour empêcher le retour arrière
+      history.pushState(null, '', '/login');
+    });
   }
 
   isLoggedIn(): boolean {

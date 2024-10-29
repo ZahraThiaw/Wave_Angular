@@ -1,17 +1,19 @@
+// app.routes.ts
 import { Routes } from '@angular/router';
-
-// Importer les composants de connexion et de tableau de bord
-import { LoginComponent } from './login/login.component'; 
+import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { DashboardComponent } from './dashboard/dashboard.component'; 
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { authGuard } from './ auth.guard';
+
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
-  { path: 'login', component: LoginComponent }, // Route pour la page de connexion
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'dashboard', component: DashboardComponent }, // Route pour le tableau de bord
-
-
-  // Redirection si route non trouvée
+  { 
+    path: 'dashboard', 
+    component: DashboardComponent,
+    canActivate: [authGuard]  // Protection de la route
+  },
   { path: '**', redirectTo: 'login' }
 ];
