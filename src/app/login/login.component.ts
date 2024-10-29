@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../app/auth.service';
+import { CommonModule } from '@angular/common';
 
 interface LoginData {
   telephone: string;
@@ -11,23 +13,43 @@ interface LoginData {
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone: true,
-  imports: [FormsModule, RouterLink]
+  imports: [FormsModule, RouterLink, CommonModule]
 })
 export class LoginComponent {
   loginData: LoginData = {
     telephone: '',
     password: ''
   };
+  
+  errorMessage: string = '';
+  isLoading: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   onSubmit() {
     if (this.loginData.telephone && this.loginData.password) {
-      // Ici, vous pourriez ajouter la logique d'authentification
-      console.log('Tentative de connexion avec:', this.loginData);
+      this.isLoading = true;
+      this.errorMessage = '';
+  
+      const numero = this.loginData.telephone.replace('+221', '').trim();
       
-      // Simulons une connexion réussie et redirigeons vers le dashboard
-      this.router.navigate(['/dashboard']);
+      this.authService.login(numero, this.loginData.password)
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/dashboard']);
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.errorMessage = error.message;
+          },
+          complete: () => {
+            this.isLoading = false;
+          }
+        });
     }
   }
+  
 }

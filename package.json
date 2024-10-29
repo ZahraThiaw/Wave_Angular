@@ -3,12 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.mjs",
+    "prebuild": "npm run tw:build",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Wave": "node dist/wave/server/server.mjs"
+    "serve:ssr:Wave": "node dist/wave/server/server.mjs",
+    "tw:watch": "tailwindcss -i src/styles.css -o src/assets/output.css --watch",
+    "tw:build": "tailwindcss -i src/styles.css -o src/assets/output.css --minify"
   },
+  
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.0",

@@ -25,7 +25,6 @@
                 class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow-lg border border-white/50 hover:border-green-300 transition-all duration-300">
                 <label class="block text-sm font-semibold text-green-800 mb-2">Téléphone</label>
                 <div class="flex items-center bg-white/50 rounded-xl p-2">
-                    <span class="text-green-700 font-medium px-3 py-1 bg-green-100 rounded-lg mr-2">+221</span>
                     <input type="tel" [(ngModel)]="loginData.telephone" name="telephone" required
                         class="block w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-green-900 placeholder-green-500/50"
                         placeholder="70 581 32 57">
@@ -54,21 +53,32 @@
                 </a>
             </div>
 
-            <!-- Bouton de connexion -->
-            <button type="submit" [disabled]="!loginForm.valid" class="w-full bg-green-500 text-white rounded-2xl py-4 px-6 font-semibold shadow-lg
-            hover:bg-green-600 transform transition-all duration-300 hover:scale-[1.02] 
-            focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2
-            disabled:opacity-50 disabled:cursor-not-allowed
-            flex items-center justify-center space-x-2 group">
-                <span>Se connecter</span>
-                <svg xmlns="http://www.w3.org/2000/svg"
+            <!-- Modifier le bouton de connexion -->
+            <button type="submit" [disabled]="!loginForm.valid || isLoading" class="w-full bg-green-500 text-white rounded-2xl py-4 px-6 font-semibold shadow-lg
+                    hover:bg-green-600 transform transition-all duration-300 hover:scale-[1.02] 
+                    focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2
+                    disabled:opacity-50 disabled:cursor-not-allowed
+                    flex items-center justify-center space-x-2 group">
+                <span>{{ isLoading ? 'Connexion en cours...' : 'Se connecter' }}</span>
+                <svg *ngIf="!isLoading" xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
+                <!-- Spinner pendant le chargement -->
+                <svg *ngIf="isLoading" class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
             </button>
         </form>
+
+        <!-- Ajouter ceci après le formulaire et avant le message d'inscription -->
+        <div *ngIf="errorMessage" class="mt-4 p-3 bg-red-100 text-red-700 rounded-xl text-center">
+            Numéro ou mot de passe incorrect
+        </div>
 
         <!-- Inscription -->
         <p class="mt-8 text-center text-white">
