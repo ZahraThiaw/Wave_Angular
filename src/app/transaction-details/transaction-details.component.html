@@ -1,0 +1,94 @@
+<!-- transaction-details.component.html -->
+<div class="fixed inset-0 z-50 bg-gray-50 overflow-y-auto">
+    <div class="min-h-screen p-4 max-w-2xl mx-auto">
+      <!-- Header -->
+      <div class="bg-white rounded-t-xl p-6 mb-4 shadow-sm">
+        <div class="flex items-center">
+          <button (click)="onClose()" class="text-gray-600 hover:text-gray-800 p-2 rounded-lg hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <div class="flex-grow ml-4">
+            <h1 class="text-3xl font-bold" [ngClass]="getTransactionColor()">
+              {{formatAmount(transaction.montant)}}
+            </h1>
+            <p class="text-gray-600 mt-1">Transaction {{transaction.type.libelle}}</p>
+          </div>
+          
+          <div class="bg-sky-100 rounded-full p-4">
+            <svg *ngIf="transaction.type.libelle === 'depot'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+            <svg *ngIf="transaction.type.libelle === 'retrait'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+            <svg *ngIf="transaction.type.libelle !== 'depot' && transaction.type.libelle !== 'retrait'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Transaction Details Cards -->
+      <div class="space-y-4">
+        <!-- Main Transaction Details Card -->
+        <div class="bg-white rounded-xl shadow-sm">
+          <div class="p-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Détails de la transaction</h2>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center py-2">
+                <span class="text-gray-600">Montant</span>
+                <span class="font-semibold text-gray-900">{{formatAmount(transaction.montant)}}</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-t border-gray-100">
+                <span class="text-gray-600">Frais</span>
+                <span class="font-semibold text-gray-900">0F</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-t border-gray-100">
+                <span class="text-gray-600">Statut</span>
+                <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">
+                  Effectué
+                </span>
+              </div>
+              <div class="flex justify-between items-center py-2" *ngIf="getAgentName()">
+                <span class="text-gray-600">Nom de l'agent</span>
+                <span class="text-gray-900">{{getAgentName()}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Additional Information Card -->
+        <!-- <div class="bg-white rounded-xl shadow-sm">
+          <div class="p-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Informations complémentaires</h2>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center py-2" *ngIf="getAgentName()">
+                <span class="text-gray-600">Nom de l'agent</span>
+                <span class="text-gray-900">{{getAgentName()}}</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-t border-gray-100">
+                <span class="text-gray-600">Date et heure</span>
+                <span class="text-gray-900">
+                  {{transaction.created_at | date:'dd MMM yyyy HH:mm'}}
+                </span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-t border-gray-100">
+                <span class="text-gray-600">ID de la Transaction</span>
+                <span class="text-gray-900 text-sm font-mono">{{transaction.id}}</span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+  
+      <!-- Footer -->
+      <div class="mt-6 bg-white rounded-xl p-6 shadow-sm">
+        <p class="text-center text-gray-500">
+          En partenariat avec Wave Digital Finance.
+        </p>
+      </div>
+    </div>
+  </div>

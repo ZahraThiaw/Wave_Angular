@@ -1,55 +1,56 @@
-<!-- Contenu de Settings -->
- 
-<div class="bg-gradient-to-br from-green-500 via-green-400 to-emerald-300 p-4 h-max border-l rounded-lg shadow-lg">
+<div class="bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-500 p-4 h-max border-l rounded-lg shadow-lg">
     <div class="flex items-center mb-6">
-        <button class="mr-2 text-white"><i class="fas fa-arrow-left"></i></button>
+        <button class="mr-2 text-white"><i class="fas fa-cog"></i></button>
         <h2 class="text-xl font-medium text-white">Paramètres</h2>
     </div>
+
     <!-- Section Partage -->
     <div class="mb-6">
         <h3 class="text-gray-100 mb-2">Partager</h3>
         <div class="bg-white rounded-lg shadow-sm">
-            <div class="p-4 border-b flex items-center text-green-800">
+            <div class="p-4 border-b flex items-center text-blue-800">
                 <i class="fas fa-share-alt mr-3"></i> Inviter un ami à rejoindre Wave
             </div>
-            <div class="p-4 flex items-center text-green-800">
+            <div class="p-4 flex items-center text-blue-800">
                 <i class="fas fa-gift mr-3"></i> Utiliser le code promotionnel
             </div>
         </div>
     </div>
+
     <!-- Section Support -->
     <div class="mb-6">
         <h3 class="text-gray-100 mb-2">Support</h3>
         <div class="bg-white rounded-lg shadow-sm">
-            <div class="p-4 border-b flex items-center text-green-800">
+            <div class="p-4 border-b flex items-center text-blue-800">
                 <i class="fas fa-headset mr-3"></i> Contactez le service client
             </div>
-            <div class="p-4 border-b flex items-center text-green-800">
+            <div class="p-4 border-b flex items-center text-blue-800">
                 <i class="fas fa-clipboard-check mr-3"></i> Vérifiez votre plafond
             </div>
-            <div class="p-4 flex items-center text-green-800">
+            <div class="p-4 flex items-center text-blue-800">
                 <i class="fas fa-map-marker-alt mr-3"></i> Trouver les agents à proximité
             </div>
         </div>
     </div>
+
     <!-- Section Sécurité -->
     <div class="mb-6">
         <h3 class="text-gray-100 mb-2">Sécurité</h3>
         <div class="bg-white rounded-lg shadow-sm">
-            <div class="p-4 border-b flex items-center text-green-800">
+            <div class="p-4 border-b flex items-center text-blue-800">
                 <i class="fas fa-mobile-alt mr-3"></i> Vos appareils connectés
             </div>
-            <div class="p-4 border-b flex items-center text-green-800">
+            <div class="p-4 border-b flex items-center text-blue-800">
                 <i class="fas fa-lock mr-3"></i> Modifiez votre code secret
             </div>
         </div>
     </div>
-     <!-- Section Déconnexion avec bouton -->
+
+    <!-- Section Déconnexion avec bouton -->
     <div class="mb-6">
         <div class="bg-white rounded-lg shadow-sm">
-            <button 
-                (click)="onLogout()"
-                class="w-full p-4 flex items-center text-green-800 hover:bg-gray-50 transition-colors duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+            <button (click)="onLogout()"
+                    class="w-full p-4 flex items-center text-blue-800 hover:bg-gray-50 transition-colors duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                 <i class="fas fa-sign-out-alt mr-3"></i>
                 <span>Se déconnecter</span>
                 <span class="text-gray-500 text-sm ml-2">({{userPhone | slice:0:2}} {{userPhone | slice:2:5}} {{userPhone | slice:5:7}} {{userPhone | slice:7:9}})</span>
@@ -62,8 +63,8 @@
         wave digital finance<br>
         Version 24.10.17-47bb8d
         <div class="mt-2 text-gray-200">
-            <span class="mx-2 hover:text-green-300">Conditions Générales</span>|
-            <span class="mx-2 hover:text-green-300">Avis de Confidentialité</span>
+            <span class="mx-2 hover:text-blue-300">Conditions Générales</span>|
+            <span class="mx-2 hover:text-blue-300">Avis de Confidentialité</span>
         </div>
     </div>
 </div>

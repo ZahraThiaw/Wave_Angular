@@ -1,12 +1,16 @@
 <div class="flex justify-center h-screen bg-gray-200 p-4">
-    <!-- Left side - Home -->
-    <div class="flex-1 max-w-4xl p-6 bg-white/30 backdrop-blur-lg rounded-3xl shadow-lg" style="flex-basis: calc(75% - 1rem);">
-        <!-- Contenu de Home -->
-        <app-home></app-home>
+    <!-- Left side - Settings (fixed position) -->
+    <div class="flex">
+        <div *ngIf="showSettings"
+            class="fixed left-0 top-4 w-96 p-6 bg-white/30 backdrop-blur-lg rounded-3xl shadow-lg border-r border-green-300">
+            <!-- Contenu de Settings -->
+            <app-settings></app-settings>
+        </div>
     </div>
-    <!-- Right side - Settings -->
-    <div class="w-96 p-6 bg-white/30 backdrop-blur-lg rounded-3xl shadow-lg border-l border-green-300 ml-10">
-        <!-- Contenu de Settings -->
-        <app-settings></app-settings>
+
+    <!-- Right side - Home -->
+    <div class="flex-1 max-w-2xl p-6 bg-white/30 backdrop-blur-lg rounded-3xl shadow-lg ml-[400px]">
+        <!-- Contenu de Home -->
+        <app-home (settingsToggle)="toggleSettings()"></app-home>
     </div>
 </div>

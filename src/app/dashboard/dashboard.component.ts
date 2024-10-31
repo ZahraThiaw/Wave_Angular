@@ -9,4 +9,11 @@ import { SettingsComponent } from '../settings/settings.component';
   imports: [CommonModule, HomeComponent, SettingsComponent],
   templateUrl: './dashboard.component.html'
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+  showSettings: boolean = false;
+
+  toggleSettings() {
+    this.showSettings = !this.showSettings;
+  }
+}
+

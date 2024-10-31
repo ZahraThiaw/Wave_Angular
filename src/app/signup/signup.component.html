@@ -118,7 +118,7 @@
 
         <!-- Ajouter ceci après le formulaire et avant le message d'inscription -->
         <div *ngIf="errorMessage" class="mt-4 p-3 bg-red-100 text-red-700 rounded-xl text-center">
-            Numéro ou mot de passe incorrect
+            {{ errorMessage }}
         </div>
     </div>
 

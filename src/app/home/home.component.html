@@ -1,69 +1,124 @@
-<!-- Contenu de Home -->
-<div class="flex flex-col h-full bg-white p-4 w-auto">
-    <!-- Section Scanner QR -->
-    <div class="bg-gradient-to-br from-green-500 to-emerald-400 rounded-lg p-6 mb-6 shadow-lg">
-        <div class="relative">
-            <div class="bg-white rounded-lg p-4 shadow-md w-48 mx-auto transform hover:scale-105 transition-transform duration-300">
-                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center mb-2">
-                    <img src="/assets/qr-code.png" alt="QR Code" class="w-full h-full object-contain" />
+<div class="flex flex-col h-full bg-gradient-to-br from-blue-600 to-indigo-500 w-auto rounded-lg">
+    <!-- Section principale avec QR et Solde -->
+    <div class="rounded-lg p-4">
+        <div class="flex items-start justify-between gap-6">
+            <!-- Section Solde - Positionnée à gauche -->
+            <div class="flex-1">
+                <div class="py-2 flex items-center">
+                    <!-- Affichage des initiales dans un cercle -->
+                    <div (click)="settingsToggle.emit()"
+                        class="mb-2 w-12 h-12 rounded-full bg-white text-blue-600 flex items-center justify-center font-bold">
+                        {{ user?.prenom.charAt(0) }}{{ user?.nom.charAt(0) }}
+                    </div>
                 </div>
-                <div class="text-center text-green-600 text-sm font-medium">
+                <div class="bg-white/90 backdrop-blur rounded-lg p-4 shadow-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-lg text-gray-600">Solde : </div>
+                        <div class="flex items-center gap-2">
+                            <button (click)="toggleBalance()"
+                                class="text-blue-600 hover:text-blue-700 focus:outline-none">
+                                <i class="fas" [class.fa-eye]="!showBalance" [class.fa-eye-slash]="showBalance"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-bold text-blue-600">
+                        <ng-container *ngIf="showBalance">
+                            {{ user?.solde }}F
+                        </ng-container>
+                        <ng-container *ngIf="!showBalance">
+                            ••••••••
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Scanner QR - Positionnée à droite -->
+            <div
+                class="bg-white rounded-lg p-1 shadow-md w-48 transform hover:scale-105 transition-transform duration-300 mb-2">
+                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center ">
+                    <img [src]="user?.carte" alt="QR Code" class="w-full h-full object-contain" />
+                </div>
+                <div class="text-center text-blue-600 text-sm font-medium">
                     <i class="fas fa-camera mr-1"></i>Scanner
                 </div>
             </div>
-            <div class="absolute -right-4 bottom-0">
-                <i class="fas fa-penguin text-2xl"></i>
-            </div>
         </div>
     </div>
-    <!-- Actions rapides -->
-    <div class="grid grid-cols-4 gap-4 mb-6">
-        <div class="flex flex-col items-center">
-            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2 shadow">
-                <i class="fas fa-user text-green-600"></i>
-            </div>
-            <span class="text-sm font-medium text-green-800">Transfert</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-2 shadow">
-                <i class="fas fa-shopping-cart text-emerald-600"></i>
-            </div>
-            <span class="text-sm font-medium text-green-800">Paiements</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2 shadow">
-                <i class="fas fa-mobile-alt text-green-600"></i>
-            </div>
-            <span class="text-sm font-medium text-green-800">Crédit</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-2 shadow">
-                <i class="fas fa-university text-red-600"></i>
-            </div>
-            <span class="text-sm font-medium text-green-800">Banque</span>
-        </div>
-    </div>
-    <!-- Liste des transactions -->
-    <div class="flex flex-col flex-1 overflow-y-auto">
-        <div class="mb-4">
-            <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                <div>
-                    <div class="text-green-600 font-medium">Retrait</div>
-                    <div class="text-gray-500 text-sm">27 oct., 13:13</div>
+
+    <div class="bg-white rounded-lg rounded-t-3xl h-full">
+        <!-- Actions rapides avec couleurs adaptées -->
+        <div class="grid grid-cols-4 gap-4 mb-5 mt-4">
+            <div class="flex flex-col items-center cursor-pointer" routerLink="/transfer">
+                <div
+                    class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-yellow-200 transition-colors duration-200">
+                    <i class="fas fa-user text-yellow-600 text-2xl"></i>
                 </div>
-                <div class="text-lg font-medium text-red-600">-20.000F</div>
+                <span class="text-sm font-medium text-yellow-800">Transfert</span>
             </div>
-        </div>
-        <!-- Transaction Item -->
-        <div class="mb-4">
-            <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                <div>
-                    <div class="text-green-600 font-medium">De Oumar Sy ODC</div>
-                    <div class="text-gray-500 text-sm">78 180 72 29</div>
-                    <div class="text-gray-500 text-sm">26 oct., 18:56</div>
+            <div class="flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-red-200 transition-colors duration-200">
+                    <i class="fas fa-shopping-cart text-red-600 text-2xl"></i>
                 </div>
-                <div class="text-lg font-medium text-green-600">500F</div>
+                <span class="text-sm font-medium text-red-800">Paiements</span>
+            </div>
+            <div class="flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-green-200 transition-colors duration-200">
+                    <i class="fas fa-mobile-alt text-green-600 text-2xl"></i>
+                </div>
+                <span class="text-sm font-medium text-green-800">Crédit</span>
+            </div>
+            <div class="flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-purple-200 transition-colors duration-200">
+                    <i class="fas fa-university text-purple-600 text-2xl"></i>
+                </div>
+                <span class="text-sm font-medium text-purple-800">Banque</span>
             </div>
         </div>
+
+        <div class="px-4 mb-5 flex justify-center">
+            <input 
+                type="text" 
+                [(ngModel)]="searchTerm" 
+                (ngModelChange)="onSearchTermChange()"
+                placeholder="Rechercher" 
+                class="w-1/2 p-1 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg font-semibold text-blue-600"
+            />
+        </div>
+    
+        <!-- Liste des transactions avec recherche -->
+        <div *ngIf="transactions.length === 0" class="text-center text-gray-500 p-4">
+            Aucune transaction trouvée
+        </div>
+
+        <div *ngFor="let transaction of transactions" class="bg-white rounded-lg shadow p-4 mx-4 my-2 transform transition-transform duration-300 hover:scale-105 hover:shadow-lg" (click)="viewTransactionDetails(transaction)">
+            <div class="flex justify-between items-center">
+              <div>
+                <div class="text-blue-600 font-medium">{{ transactionService.getTransactionLabel(transaction) }}</div>
+                <div class="text-gray-500 text-xs">
+                  <ng-container [ngSwitch]="transaction.type.libelle">
+                    <ng-container *ngSwitchCase="'transfert'">
+                      {{ transaction.exp === user?.id ? transaction.users_transaction_destinataireTousers?.telephone : transaction.users_transaction_expTousers?.telephone }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'retrait'">
+                      Via agent: {{ transaction.users_transaction_agentTousers?.prenom }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'depot'">
+                      Agent: {{ transaction.users_transaction_agentTousers?.prenom }}
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </div>
+              <div [class]="transactionService.getAmountClass(transaction)">
+                {{ transactionService.getAmountPrefix(transaction) }}{{ transaction.montant }}F
+              </div>
+            </div>
+        </div>
+          
+        <!-- Affichage des détails de la transaction si sélectionnée -->
+        <app-transaction-details *ngIf="selectedTransaction" [transaction]="selectedTransaction" (close)="selectedTransaction = null"></app-transaction-details>
+
     </div>
 </div>
