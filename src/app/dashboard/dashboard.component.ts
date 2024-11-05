@@ -6,7 +6,11 @@ import { SettingsComponent } from '../settings/settings.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, HomeComponent, SettingsComponent],
+  imports: [
+    CommonModule, 
+    HomeComponent, 
+    SettingsComponent
+  ],
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {
@@ -16,4 +20,3 @@ export class DashboardComponent {
     this.showSettings = !this.showSettings;
   }
 }
-

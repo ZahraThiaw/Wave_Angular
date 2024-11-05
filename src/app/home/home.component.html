@@ -1,16 +1,69 @@
-<div class="flex flex-col h-full bg-gradient-to-br from-blue-600 to-indigo-500 w-auto rounded-lg">
+<div class="flex flex-col h-full bg-gradient-to-br from-blue-600 to-indigo-500 w-auto rounded-lg relative">
     <!-- Section principale avec QR et Solde -->
-    <div class="rounded-lg p-4">
+    <div class="rounded-lg p-4" [class.pointer-events-none]="showNotifications">
         <div class="flex items-start justify-between gap-6">
             <!-- Section Solde - Positionnée à gauche -->
             <div class="flex-1">
-                <div class="py-2 flex items-center">
-                    <!-- Affichage des initiales dans un cercle -->
+                <div class="py-2 flex items-center space-x-3">
+                    <!-- Settings button -->
                     <div (click)="settingsToggle.emit()"
-                        class="mb-2 w-12 h-12 rounded-full bg-white text-blue-600 flex items-center justify-center font-bold">
+                        class="mb-2 w-12 h-12 rounded-full bg-white text-blue-600 flex items-center justify-center font-bold hover:bg-blue-50 transition-colors duration-200 cursor-pointer">
                         {{ user?.prenom.charAt(0) }}{{ user?.nom.charAt(0) }}
                     </div>
+
+                    <!-- Notifications button -->
+                    <button (click)="toggleNotifications()"
+                        class="mb-2 relative w-12 h-12 rounded-full bg-white text-blue-600 flex items-center justify-center hover:bg-blue-50 transition-colors duration-200">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span *ngIf="unreadNotifications.length > 0"
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                            {{ unreadNotifications.length }}
+                        </span>
+                    </button>
+
+                    <!-- Modal des notifications -->
+                    <div *ngIf="showNotifications" class="fixed inset-0 z-50 flex items-start justify-start pt-20 px-4">
+                        <!-- Overlay semi-transparent -->
+                        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" (click)="toggleNotifications()">
+                        </div>
+
+                        <!-- Modal -->
+                        <div
+                            class="relative w-80 bg-white rounded-xl shadow-2xl ml-12 animate-in fade-in slide-in-from-top-4 duration-200">
+                            <!-- Header -->
+                            <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-bell text-blue-600"></i>
+                                    <h3 class="text-lg font-semibold text-gray-800">Notifications</h3>
+                                </div>
+                                <button (click)="toggleNotifications()"
+                                    class="text-gray-400 hover:text-gray-600 transition-colors duration-200">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <!-- Corps des notifications -->
+                            <div class="max-h-[24rem] overflow-y-auto">
+                                <!-- Message si aucune notification -->
+                                <div *ngIf="unreadNotifications.length === 0"
+                                    class="flex flex-col items-center justify-center py-8 px-4">
+                                    <i class="fas fa-bell-slash text-gray-300 text-3xl mb-2"></i>
+                                    <p class="text-gray-500 text-center">Aucune notification non lue</p>
+                                </div>
+
+                                <!-- Liste des notifications -->
+                                <div *ngFor="let notification of unreadNotifications"
+                                    class="p-4 hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-blue-500"></div>
+                                        <p class="text-sm text-gray-700 flex-1">{{ notification.message }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="bg-white/90 backdrop-blur rounded-lg p-4 shadow-lg">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-lg text-gray-600">Solde : </div>
@@ -32,10 +85,10 @@
                 </div>
             </div>
 
-            <!-- Section Scanner QR - Positionnée à droite -->
+            <!-- Section Scanner QR -->
             <div
                 class="bg-white rounded-lg p-1 shadow-md w-48 transform hover:scale-105 transition-transform duration-300 mb-2">
-                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center ">
+                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
                     <img [src]="user?.carte" alt="QR Code" class="w-full h-full object-contain" />
                 </div>
                 <div class="text-center text-blue-600 text-sm font-medium">
@@ -45,80 +98,86 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-lg rounded-t-3xl h-full">
-        <!-- Actions rapides avec couleurs adaptées -->
-        <div class="grid grid-cols-4 gap-4 mb-5 mt-4">
-            <div class="flex flex-col items-center cursor-pointer" routerLink="/transfer">
+    <div class="bg-white rounded-lg rounded-t-3xl h-full overflow-y-auto"
+        [class.pointer-events-none]="showNotifications">
+        <!-- Actions rapides -->
+        <div class="grid grid-cols-5 gap-2 mb-5 mt-4 px-4">
+            <div class="flex flex-col items-center cursor-pointer" (click)="toggleTransferModal()">
                 <div
-                    class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-yellow-200 transition-colors duration-200">
+                    class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-yellow-200 transition-colors duration-200">
                     <i class="fas fa-user text-yellow-600 text-2xl"></i>
                 </div>
                 <span class="text-sm font-medium text-yellow-800">Transfert</span>
             </div>
-            <div class="flex flex-col items-center cursor-pointer">
+            <div class="flex flex-col items-center cursor-pointer" (click)="togglePaymentModal()">
                 <div
-                    class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-red-200 transition-colors duration-200">
+                    class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-red-200 transition-colors duration-200">
                     <i class="fas fa-shopping-cart text-red-600 text-2xl"></i>
                 </div>
                 <span class="text-sm font-medium text-red-800">Paiements</span>
             </div>
-            <div class="flex flex-col items-center cursor-pointer">
+            <div class="flex flex-col items-center cursor-pointer" (click)="toggleCreditModal()">
                 <div
-                    class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-green-200 transition-colors duration-200">
+                    class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-green-200 transition-colors duration-200">
                     <i class="fas fa-mobile-alt text-green-600 text-2xl"></i>
                 </div>
                 <span class="text-sm font-medium text-green-800">Crédit</span>
             </div>
             <div class="flex flex-col items-center cursor-pointer">
                 <div
-                    class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-purple-200 transition-colors duration-200">
+                    class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-purple-200 transition-colors duration-200">
                     <i class="fas fa-university text-purple-600 text-2xl"></i>
                 </div>
                 <span class="text-sm font-medium text-purple-800">Banque</span>
             </div>
+            <div class="flex flex-col items-center cursor-pointer" (click)="toggleCagnotteModal()">
+                <div
+                    class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2 shadow hover:bg-blue-200 transition-colors duration-200">
+                    <i class="fas fa-piggy-bank text-blue-600 text-2xl"></i>
+                </div>
+                <span class="text-sm font-medium text-blue-800">Cagnotte</span>
+            </div>
         </div>
 
+        <!-- Barre de recherche -->
         <div class="px-4 mb-5 flex justify-center">
-            <input 
-                type="text" 
-                [(ngModel)]="searchTerm" 
-                (ngModelChange)="onSearchTermChange()"
-                placeholder="Rechercher" 
-                class="w-1/2 p-1 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg font-semibold text-blue-600"
-            />
+            <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()" placeholder="Rechercher"
+                class="w-1/2 p-1 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg font-semibold text-blue-600" />
         </div>
-    
-        <!-- Liste des transactions avec recherche -->
+
+        <!-- Liste des transactions -->
         <div *ngIf="transactions.length === 0" class="text-center text-gray-500 p-4">
             Aucune transaction trouvée
         </div>
 
-        <div *ngFor="let transaction of transactions" class="bg-white rounded-lg shadow p-4 mx-4 my-2 transform transition-transform duration-300 hover:scale-105 hover:shadow-lg" (click)="viewTransactionDetails(transaction)">
+        <div *ngFor="let transaction of transactions"
+            class="bg-white rounded-lg shadow p-4 mx-4 my-2 transform transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+            (click)="viewTransactionDetails(transaction)">
             <div class="flex justify-between items-center">
-              <div>
-                <div class="text-blue-600 font-medium">{{ transactionService.getTransactionLabel(transaction) }}</div>
-                <div class="text-gray-500 text-xs">
-                  <ng-container [ngSwitch]="transaction.type.libelle">
-                    <ng-container *ngSwitchCase="'transfert'">
-                      {{ transaction.exp === user?.id ? transaction.users_transaction_destinataireTousers?.telephone : transaction.users_transaction_expTousers?.telephone }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'retrait'">
-                      Via agent: {{ transaction.users_transaction_agentTousers?.prenom }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'depot'">
-                      Agent: {{ transaction.users_transaction_agentTousers?.prenom }}
-                    </ng-container>
-                  </ng-container>
+                <div>
+                    <div class="text-blue-600 font-medium">{{ transactionService.getTransactionLabel(transaction) }}
+                    </div>
+                    <div class="text-gray-500 text-xs">{{ transactionService.getDetailLabel(transaction) }}</div>
                 </div>
-              </div>
-              <div [class]="transactionService.getAmountClass(transaction)">
-                {{ transactionService.getAmountPrefix(transaction) }}{{ transaction.montant }}F
-              </div>
+                <div [class]="transactionService.getAmountClass(transaction)">
+                    {{ transactionService.getAmountPrefix(transaction) }}{{ transaction.montant }}F
+                </div>
             </div>
         </div>
-          
-        <!-- Affichage des détails de la transaction si sélectionnée -->
-        <app-transaction-details *ngIf="selectedTransaction" [transaction]="selectedTransaction" (close)="selectedTransaction = null"></app-transaction-details>
 
+        <app-transfer *ngIf="showTransferModal" (close)="toggleTransferModal()"></app-transfer>
+
+        <app-payment *ngIf="showPaymentModal" [visible]="showPaymentModal" (close)="togglePaymentModal()">
+        </app-payment>
+
+        <!-- Modal des détails de transaction -->
+        <app-transaction-details *ngIf="selectedTransaction" [transaction]="selectedTransaction"
+            (close)="selectedTransaction = null">
+        </app-transaction-details>
+
+        <app-cagnotte-modal *ngIf="showCagnotteModal" [userBalance]="+(user?.solde)" (close)="toggleCagnotteModal()">
+        </app-cagnotte-modal>
+
+        <app-credit-modal *ngIf="showCreditModal" (close)="toggleCreditModal()"></app-credit-modal>
     </div>
 </div>

@@ -1,15 +1,15 @@
-<div class="flex justify-center h-screen bg-gray-200 p-4">
+<div class="flex h-screen justify-center bg-gray-200 p-4">
     <!-- Left side - Settings (fixed position) -->
     <div class="flex">
         <div *ngIf="showSettings"
-            class="fixed left-0 top-4 w-96 p-6 bg-white/30 backdrop-blur-lg rounded-3xl shadow-lg border-r border-green-300">
+            class="fixed left-40 top-4 w-96 p-6 bg-white/30 backdrop-blur-lg rounded-3xl shadow-lg border-r border-blue-300">
             <!-- Contenu de Settings -->
             <app-settings></app-settings>
         </div>
     </div>
 
     <!-- Right side - Home -->
-    <div class="flex-1 max-w-2xl p-6 bg-white/30 backdrop-blur-lg rounded-3xl shadow-lg ml-[400px]">
+    <div class="flex-1 max-w-2xl p-6 bg-white/30 backdrop-blur-lg rounded-3xl shadow-lg">
         <!-- Contenu de Home -->
         <app-home (settingsToggle)="toggleSettings()"></app-home>
     </div>

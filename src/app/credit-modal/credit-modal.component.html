@@ -1,0 +1,105 @@
+<!-- credit-modal.component.html -->
+<div class="fixed inset-0 z-50 flex items-center justify-center">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" (click)="close.emit()"></div>
+
+  <!-- Modal -->
+  <div class="relative bg-white rounded-xl shadow-2xl w-96 max-h-[80vh] flex flex-col">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 border-b">
+      <h3 class="text-lg font-semibold text-gray-800">Achat de crédit</h3>
+      <button (click)="close.emit()" class="text-gray-400 hover:text-gray-600">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Loading spinner -->
+    <div *ngIf="loading" class="absolute inset-0 flex items-center justify-center bg-white/80">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="errorMessage" class="p-4 bg-red-50 text-red-600 text-sm">
+      {{ errorMessage }}
+      <button class="ml-2 text-red-800" (click)="errorMessage = ''">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Search and new number input -->
+    <div class="p-4 border-b">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterClients()"
+        placeholder="Rechercher un contact..."
+        class="w-full p-2 border rounded-lg mb-2"
+      />
+      <div class="flex gap-2">
+        <input
+          type="tel"
+          [(ngModel)]="newNumber"
+          placeholder="Nouveau numéro"
+          class="flex-1 p-2 border rounded-lg"
+          [class.border-red-500]="showError"
+        />
+        <button
+          (click)="selectNumber(newNumber)"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          [disabled]="!creditService.isValidPhoneNumber(newNumber)"
+        >
+          OK
+        </button>
+      </div>
+      <div *ngIf="showError" class="text-red-500 text-sm mt-1">
+        Format invalide. Utilisez un numéro à 9 chiffres
+      </div>
+    </div>
+
+    <!-- Contacts list -->
+    <div class="flex-1 overflow-y-auto" *ngIf="!selectedPhone">
+      <div *ngIf="filteredClients.length === 0" class="p-4 text-center text-gray-500">
+        Aucun contact trouvé
+      </div>
+      <div *ngFor="let client of filteredClients"
+           (click)="selectNumber(client.telephone)"
+           class="p-4 hover:bg-gray-50 cursor-pointer border-b">
+        <div class="font-medium">{{client.prenom}} {{client.nom}}</div>
+        <div class="text-sm text-gray-600">{{client.telephone}}</div>
+      </div>
+    </div>
+
+    <!-- Amount input -->
+    <div *ngIf="selectedPhone" class="p-4">
+      <div class="mb-4">
+        <div class="text-sm text-gray-600 mb-1">Numéro sélectionné :</div>
+        <div class="font-medium">{{selectedPhone}}</div>
+      </div>
+      <div class="mb-4">
+        <label class="text-sm text-gray-600 mb-1 block">Montant :</label>
+        <input
+          type="number"
+          [(ngModel)]="amount"
+          placeholder="Entrez le montant"
+          class="w-full p-2 border rounded-lg"
+          min="100"
+        />
+      </div>
+      <div class="flex gap-2">
+        <button
+          (click)="selectedPhone = ''"
+          class="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+        >
+          Retour
+        </button>
+        <button
+          (click)="confirmPurchase()"
+          class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          [disabled]="!amount || amount < 100"
+        >
+          Valider
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
